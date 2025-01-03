@@ -16,7 +16,7 @@ function loadTitleScreen()
     -- Create your title screen graphics here
     gfx.setColor(gfx.kColorWhite)
 	gfx.fillRect(0, 0, screenWidth, screenHeight)
-    local titleImage = gfx.image.new("images/launch/titlecard")
+    local titleImage = gfx.image.new("images/launch/scuba_sally_title_card")
     local y = screenHeight/2 - titleImage.height/2
     titleImage:draw(screenWidth/2 - titleImage.width/2, y)
     
