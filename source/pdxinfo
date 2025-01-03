@@ -1,0 +1,8 @@
+name=Scuba Sally
+author=Nick Spaghetti
+description=A Suba Diving adventure game.
+bundleID=com.nickspaghetti.scubasally
+version=0.1
+buildNumber=1
+imagePath=source/images
+launchSoundPath=source/sounds
