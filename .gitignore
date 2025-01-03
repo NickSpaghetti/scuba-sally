@@ -142,3 +142,6 @@ fastlane/test_output
 
 .zig-cache/
 zig-out/
+
+#Playdate dev
+*.pdx
