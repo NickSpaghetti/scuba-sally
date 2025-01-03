@@ -9,30 +9,27 @@ local spritelib = gfx.sprite
 local screenWidth = playdate.display.getWidth()
 local screenHeight = playdate.display.getHeight()
 
-local gameState = "loading"
-
-function playdate.init()
-    pulp.audio.init()
-    loadTitleScreen()
-end
+local gameState = "titleScreen"
+pulp.audio.init("sounds/pulp-songs.json","sounds/pulp-sounds.json")
 
 function loadTitleScreen()
     -- Create your title screen graphics here
-    local titleImage = gfx.image.new("images/launch/titlecard.png")
-    local titleSprite = gfx.sprite.new(titleImage)
-    titleSprite:moveTo(200, 120)
-    titleSprite:add()
+    gfx.setColor(gfx.kColorWhite)
+	gfx.fillRect(0, 0, screenWidth, screenHeight)
+    local titleImage = gfx.image.new("images/launch/titlecard")
+    local y = screenHeight/2 - titleImage.height/2
+    titleImage:draw(screenWidth/2 - titleImage.width/2, y)
     
     -- Transition to title screen and play sound
     gameState = "titleScreen"
-    pulp.audio.playSound('launchTheme')
+    pulp.audio.playSong('launchTheme')
 end
 
 function playdate.update()
     pulp.audio.update()
     
     if gameState == "titleScreen" then
-        -- Handle title screen interactions here
+        loadTitleScreen()
     end
     
     spritelib.update()
