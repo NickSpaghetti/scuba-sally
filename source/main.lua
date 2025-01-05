@@ -1,6 +1,7 @@
 import "CoreLibs/sprites"
 import "CoreLibs/graphics"
 import 'pulp-audio'
+import 'sally/sally'
 
 playdate.display.setRefreshRate(30)
 
@@ -36,6 +37,8 @@ local yOffSet = 0
 local possibleGameStates = {inital = 1,ready = 2,playing = 3,paused = 4,over = 5}
 local gameState = possibleGameStates.inital
 
+local sally = Sally()
+
 local gameTick = 0
 local score = 0
 local isButtionDown = false
@@ -61,7 +64,14 @@ local function start_game()
     gameTick = 0
     score = 0
     titleSprite:setImage(gfx.image.new('images/launch/ready'))
+    sally:reset()
 	titleSprite:setVisible(true)
+end
+
+local function move_background()
+    yOffSet = (yOffSet + scrollSpeed) % backGroundImageHeight
+    backGroundSpriteBottom:moveTo(200, 120 + yOffSet)
+    backGroundSpriteBottom:moveTo(200, 120 + yOffSet - backGroundImageHeight)
 end
 
 function playdate.update()
@@ -74,14 +84,13 @@ function playdate.update()
         spritelib.update()
         if gameTick > 30 then
 			gameState = possibleGameStates.playing
+            pulp.audio.stopSong()
+            titleSprite:setVisible(false)
+            sally.fishState = sally.normalState
 		end
     elseif gameState == possibleGameStates.playing then
-        pulp.audio.stopSong()
-        titleSprite:setVisible(false)
         spritelib.update()
-        yOffSet = (yOffSet + scrollSpeed) % backGroundImageHeight
-        backGroundSpriteBottom:moveTo(200, 120 + yOffSet)
-        backGroundSpriteBottom:moveTo(200, 120 + yOffSet - backGroundImageHeight)
+        move_background()
     end
     
     spritelib.update()
@@ -106,6 +115,27 @@ function playdate.BButtonDown()
         -- Add logic here for gameState	
 	end
 end
+
+
+
+function playdate.leftButtonDown()
+	if gameState == possibleGameStates.playing then
+		sally:left()
+	end
+end
+
+function playdate.rightButtonDown()
+	if gameState == possibleGameStates.playing then
+		sally:right()
+	end
+end
+
+function playdate.upButtonDown()
+	if gameState == possibleGameStates.playing then
+		sally:up()
+	end
+end
+
 
 function playdate.AButtonUp()
 
