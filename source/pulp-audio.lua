@@ -54,7 +54,7 @@ local VoiceToWave = {
 local baseVolume = 0.65 -- reduce clipping at max volume
 local function setVolume(voice, v)
 	if voice.type==VoiceType.Noise then
-		v *= 0.3 -- SDK noise is much louder relative to JavaScript noise generator
+		v = v * 0.3 -- SDK noise is much louder relative to JavaScript noise generator
 	end
 	
 	voice.synths[1]:setVolume(v * baseVolume)
@@ -361,7 +361,7 @@ function setBpm(bpm)
 	local stream = streams[1]
 	local stepTime = stream.stepTime
 	stream.stepTime = (60 / bpm) * 0.25
-	stream.shiftTime += (stepTime - stream.stepTime) * stream.tick
+	stream.shiftTime = stream.shiftTime + (stepTime - stream.stepTime) * stream.tick
 	stream.bpm = bpm
 end
 function stopNotes()
@@ -380,7 +380,7 @@ end
 local function scheduleNote(voice, notes, i, stepTime, when)
 	local note = notes[i + 1]
 	if note and note>0 then
-		note -= 1
+		note = note - 1
 		local octave = notes[i + 2]
 		local hold = notes[i + 3]
 		
@@ -416,14 +416,14 @@ local function updateAudio()
 			local loopTicks = source.ticks - source.loopFrom
 			local rep = 0
 			if stream.tick>=source.ticks then
-				rep += math.floor((stream.tick - stream.loopFrom) / loopTicks)
+				rep = rep + math.floor((stream.tick - stream.loopFrom) / loopTicks)
 			end
 			start = rep * loopTicks
 		end
 		local tock = stream.tick - start
 		local when = stream.tick * stream.stepTime
 		
-		when += offsetTime
+		when = when + offsetTime
 		
 		local j = tock * 3
 		if isSong then
@@ -434,8 +434,8 @@ local function updateAudio()
 			scheduleNote(source.voice, source.notes, j, stream.stepTime, when)
 		end
 		
-		stream.tick += 1
-		tock += 1
+		stream.tick = stream.tick + 1
+		tock = tock + 1
 		if tock>=source.ticks then
 			if isSong then
 				if stream.loop then
