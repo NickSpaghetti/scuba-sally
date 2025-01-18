@@ -31,14 +31,9 @@ function JellyFish:update()
         return
     end
     --JellyFish should only move up and down between a specific screenHeight
-    print("current y:"..self.y)
-    print("current default y:"..self.yTravelBounds.Default)
     local nextY = (self.moveSpeed * self.direction) + self.y
-    print("nextY:"..nextY)
     nextY = math.max(self.yTravelBounds.Min,math.min(nextY,self.yTravelBounds.Max))
-    print("nexty after mining:"..nextY)
     local actualX, actualY, collisiosn, length = self:moveWithCollisions(self.x,nextY)
-    print("actualY:"..actualY)
     if(actualY <= self.yTravelBounds.Min or actualY >= self.yTravelBounds.Max) then
         --since down is -1 it will always flip to the oppsite when multiplying by sharks direction
         self.direction = self.direction * direction.down

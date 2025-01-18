@@ -32,8 +32,8 @@ local backGroundSpriteTop = spritelib.new(backGroundImage)
 local backGroundSpriteBottom = spritelib.new(backGroundImage)
 backGroundSpriteTop:moveTo(200,120)
 backGroundSpriteBottom:moveTo(70,120 - backGroundImageHeight)
---backGroundSpriteTop:addSprite()
---backGroundSpriteBottom:addSprite()
+backGroundSpriteTop:addSprite()
+backGroundSpriteBottom:addSprite()
 
 local scrollSpeed = 2
 local yOffSet = 0
@@ -42,9 +42,10 @@ local possibleGameStates = {inital = 1,ready = 2,playing = 3,paused = 4,over = 5
 local gameState = possibleGameStates.inital
 
 local sally = Sally()
-local shark = Shark(10,120)
+local shark = Shark(10,200)
 local jellyFish = JellyFish(300,100,60)
-local turtle = Turtle(100,150,0)
+local turtleH = Turtle(140,200,50,0,1)
+local turtleV = Turtle(340,140,0,160,2)
 
 local gameTick = 0
 local score = 0
@@ -94,13 +95,13 @@ function playdate.update()
             pulp.audio.stopSong()
             titleSprite:setVisible(false)
             sally.fishState = sally.normalState
-            shark:add()
+            --shark:add()
             jellyFish:add()
-            turtle:add()
+            turtleH:add()
 		end
     elseif gameState == possibleGameStates.playing then
         spritelib.update()
-        --move_background()
+        move_background()
 
     end
     
