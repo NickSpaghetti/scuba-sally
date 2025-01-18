@@ -1,7 +1,11 @@
 import "CoreLibs/sprites"
 import "CoreLibs/graphics"
+import "CoreLibs/timer"
 import 'pulp-audio'
 import 'sally/sally'
+import 'enemies/shark/shark'
+import 'enemies/jellyfish/jellyfish'
+import 'enemies/turtle/turtle'
 
 playdate.display.setRefreshRate(30)
 
@@ -27,7 +31,7 @@ local backGroundImageHeight = backGroundImage.height
 local backGroundSpriteTop = spritelib.new(backGroundImage)
 local backGroundSpriteBottom = spritelib.new(backGroundImage)
 backGroundSpriteTop:moveTo(200,120)
-backGroundSpriteBottom:moveTo(200,120 - backGroundImageHeight)
+backGroundSpriteBottom:moveTo(70,120 - backGroundImageHeight)
 backGroundSpriteTop:addSprite()
 backGroundSpriteBottom:addSprite()
 
@@ -38,6 +42,10 @@ local possibleGameStates = {inital = 1,ready = 2,playing = 3,paused = 4,over = 5
 local gameState = possibleGameStates.inital
 
 local sally = Sally()
+local shark = Shark(10,200)
+local jellyFish = JellyFish(300,100,60)
+local turtleH = Turtle(140,200,50,0,1)
+local turtleV = Turtle(340,140,0,160,2)
 
 local gameTick = 0
 local score = 0
@@ -77,7 +85,7 @@ end
 function playdate.update()
     gameTick = gameTick + 1
     pulp.audio.update()
-    
+    playdate.timer.updateTimers()
     if gameState == possibleGameStates.inital then
         load_title_screen()
     elseif gameState == possibleGameStates.ready then
@@ -87,10 +95,14 @@ function playdate.update()
             pulp.audio.stopSong()
             titleSprite:setVisible(false)
             sally.fishState = sally.normalState
+            --shark:add()
+            jellyFish:add()
+            turtleH:add()
 		end
     elseif gameState == possibleGameStates.playing then
         spritelib.update()
         move_background()
+
     end
     
     spritelib.update()

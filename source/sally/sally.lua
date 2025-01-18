@@ -139,17 +139,17 @@ function Sally:updateNormal()
 
 	self:updateFrame()
 
-    print('v before check: '..self.v)
+    --print('v before check: '..self.v)
 
 	self.v = self.v + a * dt
 	if self.v > 400 then	-- terminal fish velocity
 		self.v = 400
 	end
 
-    print('v after check: '..self.v)
+    --print('v after check: '..self.v)
 
 	local distance = self.v * dt
-    print('distance: '..distance)
+    --print('distance: '..distance)
 
 	-- collision response logic for the fish instance (sally) is handled in main.lua in `function sally:collisionResponse(other)`
 	self:moveWithCollisions(self.x + self.xd, self.y + distance)
