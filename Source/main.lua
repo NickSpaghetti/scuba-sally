@@ -26,6 +26,8 @@ titleSprite:moveTo(screenWidth / 2, screenHeight / 2)
 titleSprite:setZIndex(950)
 titleSprite:addSprite()
 
+local readyImage = gfx.image.new('images/launch/ready')
+
 local backGroundImage = gfx.image.new('images/back_ground')
 local backGroundImageHeight = backGroundImage.height
 local backGroundSpriteTop = spritelib.new(backGroundImage)
@@ -57,7 +59,6 @@ local function load_title_screen()
     -- Create your title screen graphics here
     gfx.setColor(gfx.kColorWhite)
 	gfx.fillRect(0, 0, screenWidth, screenHeight)
-    local readyImage  = gfx.image.new("images/launch/ready")
     local y = screenHeight/2 - titleSprite.height/2
     if not isButtionDown then
         y = y - 3
@@ -71,7 +72,7 @@ local function start_game()
     gameState = possibleGameStates.ready
     gameTick = 0
     score = 0
-    titleSprite:setImage(gfx.image.new('images/launch/ready'))
+    titleSprite:setImage(readyImage)
     sally:reset()
 	titleSprite:setVisible(true)
 end
@@ -163,3 +164,7 @@ function playdate.BButtonUp()
 		start_game()
 	end
 end
+
+-- BEGIN MCP HARNESS
+import "mcp_harness"
+-- END MCP HARNESS
